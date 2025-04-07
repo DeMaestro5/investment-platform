@@ -27,7 +27,6 @@ const navItems: NavItem[] = [
       { label: 'Trading Platform', href: '/trading/platform' },
       { label: 'Charts', href: '/trading/charts' },
       { label: 'Analysis Tools', href: '/trading/tools' },
-      { label: 'API', href: '/trading/api' },
     ],
   },
   {
@@ -74,7 +73,16 @@ const Navbar: React.FC = () => {
 
   // Close mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => setIsMenuOpen(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        isMenuOpen &&
+        !target.closest('.mobile-menu') &&
+        !target.closest('.mobile-menu-button')
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
 
     if (isMenuOpen) {
       document.addEventListener('click', handleClickOutside);
@@ -92,14 +100,18 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className='container mx-auto px-4'>
-        <div className='flex justify-between items-center h-20'>
+        <div className='flex justify-between items-center h-16 sm:h-20'>
           {/* Text Logo */}
           <Link href='/' className='flex-shrink-0'>
             <div className='flex items-center'>
-              <span className='text-yellow-500 text-2xl font-bold'>INVEST</span>
-              <span className='text-white text-2xl font-light'>PLATFORM</span>
-              <div className='h-6 w-1 bg-yellow-500 mx-2 rounded-full'></div>
-              <span className='text-white text-sm uppercase tracking-wider'>
+              <span className='text-yellow-500 text-xl sm:text-2xl font-bold'>
+                INVEST
+              </span>
+              <span className='text-white text-xl sm:text-2xl font-light'>
+                PLATFORM
+              </span>
+              <div className='h-4 sm:h-6 w-1 bg-yellow-500 mx-2 rounded-full'></div>
+              <span className='text-white text-xs sm:text-sm uppercase tracking-wider hidden sm:inline-block'>
                 Trading Solutions
               </span>
             </div>
@@ -155,8 +167,9 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <button
-            className='lg:hidden text-white'
+            className='lg:hidden text-white mobile-menu-button'
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <svg
               className='w-6 h-6'
@@ -178,13 +191,14 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className='lg:hidden'>
+          <div className='lg:hidden mobile-menu bg-gray-900 shadow-lg rounded-b-lg w-full overflow-hidden'>
             <div className='px-2 pt-2 pb-3 space-y-1'>
               {navItems.map((item) => (
                 <div key={item.label}>
                   <Link
                     href={item.href}
                     className='block px-3 py-2 text-white hover:bg-gray-700 rounded-md'
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item.label}
                   </Link>
@@ -195,6 +209,7 @@ const Navbar: React.FC = () => {
                           key={subItem.label}
                           href={subItem.href}
                           className='block px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-md'
+                          onClick={() => setIsMenuOpen(false)}
                         >
                           {subItem.label}
                         </Link>

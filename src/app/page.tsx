@@ -23,14 +23,16 @@ export default function HomePage() {
   ];
 
   return (
-    <div className='min-h-screen bg-gray-900 text-white'>
+    <div className='min-h-screen bg-gray-900 text-white overflow-x-hidden'>
       <Navbar />
 
-      {/* Progress Indicator */}
-      <ProgressIndicator steps={progressSteps} />
+      {/* Progress Indicator - Hide on mobile */}
+      <div className='hidden md:block'>
+        <ProgressIndicator steps={progressSteps} />
+      </div>
 
       {/* Main Content */}
-      <main>
+      <main className='w-full'>
         {/* Hero Section with Slider */}
         <HeroSection />
 

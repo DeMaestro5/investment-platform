@@ -54,7 +54,7 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
     case 'facebook':
       return (
         <svg
-          className='w-5 h-5'
+          className='w-4 sm:w-5 h-4 sm:h-5'
           fill='currentColor'
           viewBox='0 0 24 24'
           aria-hidden='true'
@@ -69,7 +69,7 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
     case 'twitter':
       return (
         <svg
-          className='w-5 h-5'
+          className='w-4 sm:w-5 h-4 sm:h-5'
           fill='currentColor'
           viewBox='0 0 24 24'
           aria-hidden='true'
@@ -80,7 +80,7 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
     case 'instagram':
       return (
         <svg
-          className='w-5 h-5'
+          className='w-4 sm:w-5 h-4 sm:h-5'
           fill='currentColor'
           viewBox='0 0 24 24'
           aria-hidden='true'
@@ -95,7 +95,7 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
     case 'linkedin':
       return (
         <svg
-          className='w-5 h-5'
+          className='w-4 sm:w-5 h-4 sm:h-5'
           fill='currentColor'
           viewBox='0 0 24 24'
           aria-hidden='true'
@@ -110,7 +110,7 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
     case 'youtube':
       return (
         <svg
-          className='w-5 h-5'
+          className='w-4 sm:w-5 h-4 sm:h-5'
           fill='currentColor'
           viewBox='0 0 24 24'
           aria-hidden='true'
@@ -129,29 +129,29 @@ const SocialIcon: React.FC<{ platform: SocialLink['platform'] }> = ({
 
 const Footer: React.FC = () => {
   return (
-    <footer className='bg-gray-900 text-gray-300'>
-      <div className='container mx-auto px-4 py-12'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12'>
+    <footer className='bg-gray-900 text-gray-300 w-full overflow-hidden'>
+      <div className='container mx-auto px-4 py-8 sm:py-10 md:py-12'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 md:gap-12'>
           {/* Logo and Info */}
           <div className='lg:col-span-2'>
-            <div className='mb-6'>
+            <div className='mb-4 sm:mb-6'>
               <Link href='/' className='inline-block'>
                 {/* Text Logo - Matching the one in Navbar */}
                 <div className='flex items-center'>
-                  <span className='text-yellow-500 text-2xl font-bold'>
+                  <span className='text-yellow-500 text-xl sm:text-2xl font-bold'>
                     INVEST
                   </span>
-                  <span className='text-white text-2xl font-light'>
+                  <span className='text-white text-xl sm:text-2xl font-light'>
                     PLATFORM
                   </span>
-                  <div className='h-6 w-1 bg-yellow-500 mx-2 rounded-full'></div>
-                  <span className='text-white text-sm uppercase tracking-wider'>
+                  <div className='h-4 sm:h-6 w-1 bg-yellow-500 mx-2 rounded-full'></div>
+                  <span className='text-white text-xs sm:text-sm uppercase tracking-wider hidden sm:inline-block'>
                     Trading Solutions
                   </span>
                 </div>
               </Link>
             </div>
-            <p className='mb-4'>
+            <p className='mb-4 text-sm sm:text-base'>
               A trusted global trading platform offering advanced tools and
               secure access to cryptocurrency, forex, and stock markets.
             </p>
@@ -174,15 +174,15 @@ const Footer: React.FC = () => {
           {/* Footer Columns */}
           {footerColumns.map((column) => (
             <div key={column.title}>
-              <h3 className='text-white font-semibold text-lg mb-4'>
+              <h3 className='text-white font-semibold text-base sm:text-lg mb-3 sm:mb-4'>
                 {column.title}
               </h3>
-              <ul className='space-y-3'>
+              <ul className='space-y-2 sm:space-y-3'>
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className='hover:text-white hover:underline transition-colors'
+                      className='text-sm sm:text-base hover:text-white hover:underline transition-colors'
                     >
                       {link.label}
                     </Link>
@@ -194,27 +194,27 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className='mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center'>
-          <p className='text-sm mb-4 md:mb-0'>
+        <div className='mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center'>
+          <p className='text-xs sm:text-sm mb-3 sm:mb-0'>
             &copy; {new Date().getFullYear()} INVEST
             <span className='font-light'>PLATFORM</span>. All rights reserved.
           </p>
-          <div className='flex space-x-6'>
+          <div className='flex space-x-4 sm:space-x-6'>
             <Link
               href='/privacy'
-              className='text-sm hover:text-white hover:underline'
+              className='text-xs sm:text-sm hover:text-white hover:underline'
             >
               Privacy Policy
             </Link>
             <Link
               href='/terms'
-              className='text-sm hover:text-white hover:underline'
+              className='text-xs sm:text-sm hover:text-white hover:underline'
             >
               Terms of Service
             </Link>
             <Link
               href='/cookies'
-              className='text-sm hover:text-white hover:underline'
+              className='text-xs sm:text-sm hover:text-white hover:underline'
             >
               Cookie Policy
             </Link>

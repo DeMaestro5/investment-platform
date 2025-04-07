@@ -8,6 +8,13 @@
   --background-end-rgb: 17, 24, 39;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

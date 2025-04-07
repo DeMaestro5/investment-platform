@@ -57,9 +57,12 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section id='hero' className='relative h-screen'>
+    <section
+      id='hero'
+      className='relative h-[70vh] sm:h-[80vh] md:h-screen w-full overflow-hidden'
+    >
       {/* Slides */}
-      <div className='relative h-full overflow-hidden'>
+      <div className='relative h-full w-full overflow-hidden'>
         {heroSlides.map((slide, index) => (
           <div
             key={slide.id}
@@ -70,7 +73,7 @@ export const HeroSection: React.FC = () => {
             }`}
           >
             {/* Image with overlay */}
-            <div className='relative h-full'>
+            <div className='relative h-full w-full'>
               <Image
                 src={slide.image}
                 alt={slide.title}
@@ -83,15 +86,20 @@ export const HeroSection: React.FC = () => {
 
             {/* Content */}
             <div className='absolute inset-0 flex items-center justify-center'>
-              <div className='container mx-auto px-4 text-center text-white'>
-                <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold mb-4'>
+              <div className='container mx-auto px-4 text-center text-white max-w-full'>
+                <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-4'>
                   {slide.title}
                 </h1>
-                <p className='text-xl md:text-2xl mb-6 max-w-2xl mx-auto'>
+                <p className='text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 max-w-2xl mx-auto'>
                   {slide.subtitle}
                 </p>
                 {slide.ctaText && (
-                  <Button variant='primary' size='lg' href={slide.ctaLink}>
+                  <Button
+                    variant='primary'
+                    size='lg'
+                    href={slide.ctaLink}
+                    className='text-sm sm:text-base'
+                  >
                     {slide.ctaText}
                   </Button>
                 )}
@@ -102,14 +110,14 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* Dots/indicators */}
-      <div className='absolute bottom-8 left-0 right-0 flex justify-center space-x-2'>
+      <div className='absolute bottom-4 sm:bottom-8 left-0 right-0 flex justify-center space-x-2'>
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-3 w-3 rounded-full transition-all ${
+            className={`h-2 sm:h-3 w-2 sm:w-3 rounded-full transition-all ${
               index === currentSlide
-                ? 'bg-yellow-500 w-8'
+                ? 'bg-yellow-500 w-6 sm:w-8'
                 : 'bg-white bg-opacity-50'
             }`}
             aria-label={`Go to slide ${index + 1}`}

@@ -16,6 +16,7 @@ import {
 import { Button } from '../../components/ui/Button';
 import { Transaction } from '../../types';
 import { DepositModal } from '../../components/DepositModal';
+import Link from 'next/link';
 
 export default function AccountsPage() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -421,20 +422,36 @@ export default function AccountsPage() {
     <div className='min-h-screen bg-gray-900 text-white'>
       {/* Header */}
       <div className='bg-gray-800 border-b border-gray-700'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
-          <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6'>
+          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
             <div>
-              <h1 className='text-2xl font-bold text-yellow-500'>
-                Trading Dashboard
-              </h1>
-              <p className='text-gray-400 mt-1'>
+              <Link href='/' className='flex-shrink-0'>
+                <div className='flex items-center'>
+                  <span className='text-yellow-500 text-xl sm:text-2xl font-bold'>
+                    INVEST
+                  </span>
+                  <span className='text-white text-xl sm:text-2xl font-light'>
+                    PLATFORM
+                  </span>
+                  <div className='h-4 sm:h-6 w-1 bg-yellow-500 mx-2 rounded-full'></div>
+                  <span className='text-white text-xs sm:text-sm uppercase tracking-wider hidden sm:inline-block'>
+                    Trading Solutions
+                  </span>
+                </div>
+              </Link>
+              <p className='text-sm sm:text-base text-gray-400 mt-1'>
                 Welcome back, {user.firstName || user.username}
               </p>
             </div>
-            <div className='mt-4 md:mt-0 flex items-center space-x-4'>
-              <Button variant='primary' size='md' onClick={handleDeposit}>
+            <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:space-x-4'>
+              <Button
+                variant='primary'
+                size='md'
+                onClick={handleDeposit}
+                className='w-full sm:w-auto'
+              >
                 <svg
-                  className='w-5 h-5 mr-2'
+                  className='w-4 h-4 sm:w-5 sm:h-5 mr-2'
                   fill='none'
                   stroke='currentColor'
                   viewBox='0 0 24 24'
@@ -453,9 +470,10 @@ export default function AccountsPage() {
                 size='md'
                 onClick={handleWithdraw}
                 disabled={balance < 50}
+                className='w-full sm:w-auto'
               >
                 <svg
-                  className='w-5 h-5 mr-2'
+                  className='w-4 h-4 sm:w-5 sm:h-5 mr-2'
                   fill='none'
                   stroke='currentColor'
                   viewBox='0 0 24 24'
@@ -481,10 +499,10 @@ export default function AccountsPage() {
       />
 
       {/* Main Content */}
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8'>
         {/* Tabs */}
-        <div className='border-b border-gray-700 mb-8'>
-          <nav className='-mb-px flex space-x-8'>
+        <div className='border-b border-gray-700 mb-6 sm:mb-8 overflow-x-auto'>
+          <nav className='-mb-px flex space-x-4 sm:space-x-8 min-w-max'>
             {['overview', 'transactions', 'settings'].map((tab) => (
               <button
                 key={tab}
@@ -493,7 +511,7 @@ export default function AccountsPage() {
                   activeTab === tab
                     ? 'border-yellow-500 text-yellow-500'
                     : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
+                } whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-sm capitalize`}
               >
                 {tab}
               </button>
@@ -503,17 +521,17 @@ export default function AccountsPage() {
 
         {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className='space-y-8'>
+          <div className='space-y-6 sm:space-y-8'>
             {/* Account Summary Cards */}
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-              <div className='bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-medium text-gray-300'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
+              <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
+                <div className='flex items-center justify-between mb-3 sm:mb-4'>
+                  <h3 className='text-base sm:text-lg font-medium text-gray-300'>
                     Account Balance
                   </h3>
                   <div className='p-2 bg-yellow-500/10 rounded-lg'>
                     <svg
-                      className='w-6 h-6 text-yellow-500'
+                      className='w-5 h-5 sm:w-6 sm:h-6 text-yellow-500'
                       fill='none'
                       stroke='currentColor'
                       viewBox='0 0 24 24'
@@ -527,22 +545,22 @@ export default function AccountsPage() {
                     </svg>
                   </div>
                 </div>
-                <p className='text-3xl font-bold text-yellow-500'>
+                <p className='text-2xl sm:text-3xl font-bold text-yellow-500'>
                   ${balance.toLocaleString()}
                 </p>
-                <p className='mt-2 text-sm text-gray-400'>
+                <p className='mt-2 text-xs sm:text-sm text-gray-400'>
                   Available for trading
                 </p>
               </div>
 
-              <div className='bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-medium text-gray-300'>
+              <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
+                <div className='flex items-center justify-between mb-3 sm:mb-4'>
+                  <h3 className='text-base sm:text-lg font-medium text-gray-300'>
                     Total Profit
                   </h3>
                   <div className='p-2 bg-green-500/10 rounded-lg'>
                     <svg
-                      className='w-6 h-6 text-green-500'
+                      className='w-5 h-5 sm:w-6 sm:h-6 text-green-500'
                       fill='none'
                       stroke='currentColor'
                       viewBox='0 0 24 24'
@@ -557,25 +575,25 @@ export default function AccountsPage() {
                   </div>
                 </div>
                 <p
-                  className={`text-3xl font-bold ${
+                  className={`text-2xl sm:text-3xl font-bold ${
                     profit >= 0 ? 'text-green-500' : 'text-red-500'
                   }`}
                 >
                   ${profit.toLocaleString()}
                 </p>
-                <p className='mt-2 text-sm text-gray-400'>
+                <p className='mt-2 text-xs sm:text-sm text-gray-400'>
                   All-time trading profit
                 </p>
               </div>
 
-              <div className='bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-medium text-gray-300'>
+              <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700 hover:border-yellow-500/50 transition-all duration-300'>
+                <div className='flex items-center justify-between mb-3 sm:mb-4'>
+                  <h3 className='text-base sm:text-lg font-medium text-gray-300'>
                     Portfolio Value
                   </h3>
                   <div className='p-2 bg-blue-500/10 rounded-lg'>
                     <svg
-                      className='w-6 h-6 text-blue-500'
+                      className='w-5 h-5 sm:w-6 sm:h-6 text-blue-500'
                       fill='none'
                       stroke='currentColor'
                       viewBox='0 0 24 24'
@@ -589,30 +607,35 @@ export default function AccountsPage() {
                     </svg>
                   </div>
                 </div>
-                <p className='text-3xl font-bold text-blue-500'>
+                <p className='text-2xl sm:text-3xl font-bold text-blue-500'>
                   ${(balance + profit).toLocaleString()}
                 </p>
-                <p className='mt-2 text-sm text-gray-400'>
+                <p className='mt-2 text-xs sm:text-sm text-gray-400'>
                   Total account value
                 </p>
               </div>
             </div>
 
             {/* Performance Metrics */}
-            <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>
-              <h3 className='text-lg font-medium text-gray-300 mb-6'>
+            <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700'>
+              <h3 className='text-base sm:text-lg font-medium text-gray-300 mb-4 sm:mb-6'>
                 Performance Metrics
               </h3>
               {isLoadingMetrics ? (
-                <div className='flex justify-center py-8'>
+                <div className='flex justify-center py-6 sm:py-8'>
                   <div className='w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin'></div>
                 </div>
               ) : (
-                <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
+                <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6'>
                   {formattedMetrics.map((metric, index) => (
-                    <div key={index} className='bg-gray-700/50 rounded-lg p-4'>
-                      <p className='text-sm text-gray-400'>{metric.label}</p>
-                      <p className='text-xl font-bold text-white mt-1'>
+                    <div
+                      key={index}
+                      className='bg-gray-700/50 rounded-lg p-3 sm:p-4'
+                    >
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        {metric.label}
+                      </p>
+                      <p className='text-lg sm:text-xl font-bold text-white mt-1'>
                         {metric.value}
                       </p>
                       <p
@@ -631,93 +654,98 @@ export default function AccountsPage() {
             </div>
 
             {/* Recent Transactions */}
-            <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>
-              <div className='flex items-center justify-between mb-6'>
-                <h3 className='text-lg font-medium text-gray-300'>
+            <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700'>
+              <div className='flex items-center justify-between mb-4 sm:mb-6'>
+                <h3 className='text-base sm:text-lg font-medium text-gray-300'>
                   Recent Transactions
                 </h3>
                 <button
                   onClick={() => setActiveTab('transactions')}
-                  className='text-sm text-yellow-500 hover:text-yellow-400'
+                  className='text-xs sm:text-sm text-yellow-500 hover:text-yellow-400'
                 >
                   View All
                 </button>
               </div>
               {isLoadingTransactions ? (
-                <div className='flex justify-center py-8'>
+                <div className='flex justify-center py-6 sm:py-8'>
                   <div className='w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin'></div>
                 </div>
               ) : recentTransactions.length > 0 ? (
-                <div className='overflow-x-auto'>
-                  <table className='min-w-full divide-y divide-gray-700'>
-                    <thead>
-                      <tr>
-                        <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                          Type
-                        </th>
-                        <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                          Amount
-                        </th>
-                        <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                          Date
-                        </th>
-                        <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className='divide-y divide-gray-700'>
-                      {recentTransactions.map((transaction) => (
-                        <tr key={transaction.id}>
-                          <td className='px-4 py-3 whitespace-nowrap'>
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                transaction.transactionType === 'deposit'
-                                  ? 'bg-green-100 text-green-800'
-                                  : transaction.transactionType === 'withdrawal'
-                                  ? 'bg-red-100 text-red-800'
-                                  : transaction.transactionType === 'buy'
-                                  ? 'bg-blue-100 text-blue-800'
-                                  : 'bg-yellow-100 text-yellow-800'
-                              }`}
-                            >
-                              {transaction.transactionType
-                                .charAt(0)
-                                .toUpperCase() +
-                                transaction.transactionType.slice(1)}
-                            </span>
-                          </td>
-                          <td className='px-4 py-3 whitespace-nowrap text-sm text-white'>
-                            ${transaction.totalAmount.toLocaleString()}
-                          </td>
-                          <td className='px-4 py-3 whitespace-nowrap text-sm text-gray-400'>
-                            {new Date(
-                              transaction.createdAt
-                            ).toLocaleDateString()}
-                          </td>
-                          <td className='px-4 py-3 whitespace-nowrap'>
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                transaction.status === 'completed'
-                                  ? 'bg-green-100 text-green-800'
-                                  : transaction.status === 'pending'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : transaction.status === 'failed'
-                                  ? 'bg-red-100 text-red-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              }`}
-                            >
-                              {transaction.status.charAt(0).toUpperCase() +
-                                transaction.status.slice(1)}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className='overflow-x-auto -mx-4 sm:mx-0'>
+                  <div className='min-w-full inline-block align-middle'>
+                    <div className='overflow-hidden'>
+                      <table className='min-w-full divide-y divide-gray-700'>
+                        <thead>
+                          <tr>
+                            <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                              Type
+                            </th>
+                            <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                              Amount
+                            </th>
+                            <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                              Date
+                            </th>
+                            <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className='divide-y divide-gray-700'>
+                          {recentTransactions.map((transaction) => (
+                            <tr key={transaction.id}>
+                              <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap'>
+                                <span
+                                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                    transaction.transactionType === 'deposit'
+                                      ? 'bg-green-100 text-green-800'
+                                      : transaction.transactionType ===
+                                        'withdrawal'
+                                      ? 'bg-red-100 text-red-800'
+                                      : transaction.transactionType === 'buy'
+                                      ? 'bg-blue-100 text-blue-800'
+                                      : 'bg-yellow-100 text-yellow-800'
+                                  }`}
+                                >
+                                  {transaction.transactionType
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    transaction.transactionType.slice(1)}
+                                </span>
+                              </td>
+                              <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-white'>
+                                ${transaction.totalAmount.toLocaleString()}
+                              </td>
+                              <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-gray-400'>
+                                {new Date(
+                                  transaction.createdAt
+                                ).toLocaleDateString()}
+                              </td>
+                              <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap'>
+                                <span
+                                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                    transaction.status === 'completed'
+                                      ? 'bg-green-100 text-green-800'
+                                      : transaction.status === 'pending'
+                                      ? 'bg-yellow-100 text-yellow-800'
+                                      : transaction.status === 'failed'
+                                      ? 'bg-red-100 text-red-800'
+                                      : 'bg-gray-100 text-gray-800'
+                                  }`}
+                                >
+                                  {transaction.status.charAt(0).toUpperCase() +
+                                    transaction.status.slice(1)}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className='text-center py-8 text-gray-400'>
+                <div className='text-center py-6 sm:py-8 text-gray-400'>
                   No transactions found. Start trading to see your history.
                 </div>
               )}
@@ -727,83 +755,90 @@ export default function AccountsPage() {
 
         {/* Transactions Tab */}
         {activeTab === 'transactions' && (
-          <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>
-            <h3 className='text-lg font-medium text-gray-300 mb-6'>
+          <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700'>
+            <h3 className='text-base sm:text-lg font-medium text-gray-300 mb-4 sm:mb-6'>
               All Transactions
             </h3>
             {isLoadingTransactions ? (
-              <div className='flex justify-center py-8'>
+              <div className='flex justify-center py-6 sm:py-8'>
                 <div className='w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin'></div>
               </div>
             ) : allTransactions.length > 0 ? (
-              <div className='overflow-x-auto'>
-                <table className='min-w-full divide-y divide-gray-700'>
-                  <thead>
-                    <tr>
-                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                        Type
-                      </th>
-                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                        Amount
-                      </th>
-                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                        Date
-                      </th>
-                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className='divide-y divide-gray-700'>
-                    {allTransactions.map((transaction) => (
-                      <tr key={transaction.id}>
-                        <td className='px-4 py-3 whitespace-nowrap'>
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              transaction.transactionType === 'deposit'
-                                ? 'bg-green-100 text-green-800'
-                                : transaction.transactionType === 'withdrawal'
-                                ? 'bg-red-100 text-red-800'
-                                : transaction.transactionType === 'buy'
-                                ? 'bg-blue-100 text-blue-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}
-                          >
-                            {transaction.transactionType
-                              .charAt(0)
-                              .toUpperCase() +
-                              transaction.transactionType.slice(1)}
-                          </span>
-                        </td>
-                        <td className='px-4 py-3 whitespace-nowrap text-sm text-white'>
-                          ${transaction.totalAmount.toLocaleString()}
-                        </td>
-                        <td className='px-4 py-3 whitespace-nowrap text-sm text-gray-400'>
-                          {new Date(transaction.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className='px-4 py-3 whitespace-nowrap'>
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              transaction.status === 'completed'
-                                ? 'bg-green-100 text-green-800'
-                                : transaction.status === 'pending'
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : transaction.status === 'failed'
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-gray-100 text-gray-800'
-                            }`}
-                          >
-                            {transaction.status.charAt(0).toUpperCase() +
-                              transaction.status.slice(1)}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className='overflow-x-auto -mx-4 sm:mx-0'>
+                <div className='min-w-full inline-block align-middle'>
+                  <div className='overflow-hidden'>
+                    <table className='min-w-full divide-y divide-gray-700'>
+                      <thead>
+                        <tr>
+                          <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                            Type
+                          </th>
+                          <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                            Amount
+                          </th>
+                          <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                            Date
+                          </th>
+                          <th className='px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider'>
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className='divide-y divide-gray-700'>
+                        {allTransactions.map((transaction) => (
+                          <tr key={transaction.id}>
+                            <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap'>
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  transaction.transactionType === 'deposit'
+                                    ? 'bg-green-100 text-green-800'
+                                    : transaction.transactionType ===
+                                      'withdrawal'
+                                    ? 'bg-red-100 text-red-800'
+                                    : transaction.transactionType === 'buy'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-yellow-100 text-yellow-800'
+                                }`}
+                              >
+                                {transaction.transactionType
+                                  .charAt(0)
+                                  .toUpperCase() +
+                                  transaction.transactionType.slice(1)}
+                              </span>
+                            </td>
+                            <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-white'>
+                              ${transaction.totalAmount.toLocaleString()}
+                            </td>
+                            <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-gray-400'>
+                              {new Date(
+                                transaction.createdAt
+                              ).toLocaleDateString()}
+                            </td>
+                            <td className='px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap'>
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  transaction.status === 'completed'
+                                    ? 'bg-green-100 text-green-800'
+                                    : transaction.status === 'pending'
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : transaction.status === 'failed'
+                                    ? 'bg-red-100 text-red-800'
+                                    : 'bg-gray-100 text-gray-800'
+                                }`}
+                              >
+                                {transaction.status.charAt(0).toUpperCase() +
+                                  transaction.status.slice(1)}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             ) : (
-              <div className='text-center py-8 text-gray-400'>
+              <div className='text-center py-6 sm:py-8 text-gray-400'>
                 No transactions found. Start trading to see your history.
               </div>
             )}
@@ -812,15 +847,15 @@ export default function AccountsPage() {
 
         {/* Settings Tab */}
         {activeTab === 'settings' && (
-          <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>
-            <h3 className='text-lg font-medium text-gray-300 mb-6'>
+          <div className='bg-gray-800 rounded-xl p-4 sm:p-6 border border-gray-700'>
+            <h3 className='text-base sm:text-lg font-medium text-gray-300 mb-4 sm:mb-6'>
               Account Settings
             </h3>
 
             {/* Profile Update Message */}
             {profileUpdateMessage && (
               <div
-                className={`mb-6 p-4 rounded-lg ${
+                className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg ${
                   profileUpdateMessage.type === 'success'
                     ? 'bg-green-900/50 text-green-300 border border-green-700'
                     : 'bg-red-900/50 text-red-300 border border-red-700'
@@ -833,7 +868,7 @@ export default function AccountsPage() {
             {/* Security Update Message */}
             {securityUpdateMessage && (
               <div
-                className={`mb-6 p-4 rounded-lg ${
+                className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg ${
                   securityUpdateMessage.type === 'success'
                     ? 'bg-green-900/50 text-green-300 border border-green-700'
                     : 'bg-red-900/50 text-red-300 border border-red-700'
@@ -843,10 +878,10 @@ export default function AccountsPage() {
               </div>
             )}
 
-            <div className='space-y-6'>
+            <div className='space-y-4 sm:space-y-6'>
               <div className='bg-gray-700/50 rounded-lg p-4'>
-                <div className='flex justify-between items-center mb-4'>
-                  <h4 className='text-md font-medium text-white'>
+                <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4'>
+                  <h4 className='text-sm sm:text-md font-medium text-white'>
                     Personal Information
                   </h4>
                   {!isEditingProfile ? (
@@ -854,15 +889,17 @@ export default function AccountsPage() {
                       variant='outline'
                       size='sm'
                       onClick={() => setIsEditingProfile(true)}
+                      className='w-full sm:w-auto'
                     >
                       Edit Profile
                     </Button>
                   ) : (
-                    <div className='flex space-x-2'>
+                    <div className='flex flex-col sm:flex-row gap-2 sm:space-x-2'>
                       <Button
                         variant='primary'
                         size='sm'
                         onClick={handleUpdateProfile}
+                        className='w-full sm:w-auto'
                       >
                         Save Changes
                       </Button>
@@ -870,6 +907,7 @@ export default function AccountsPage() {
                         variant='outline'
                         size='sm'
                         onClick={() => setIsEditingProfile(false)}
+                        className='w-full sm:w-auto'
                       >
                         Cancel
                       </Button>
@@ -878,7 +916,7 @@ export default function AccountsPage() {
                 </div>
 
                 {isEditingProfile ? (
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <div>
                       <label className='block text-sm text-gray-400 mb-1'>
                         Full Name
@@ -888,7 +926,7 @@ export default function AccountsPage() {
                         name='full_name'
                         value={userDetails.full_name}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
                     <div>
@@ -896,14 +934,14 @@ export default function AccountsPage() {
                         Phone Number
                       </label>
                       <input
-                        type='text'
+                        type='tel'
                         name='phone_number'
                         value={userDetails.phone_number}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
-                    <div className='md:col-span-2'>
+                    <div className='sm:col-span-2'>
                       <label className='block text-sm text-gray-400 mb-1'>
                         Address
                       </label>
@@ -912,7 +950,7 @@ export default function AccountsPage() {
                         name='address'
                         value={userDetails.address}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
                     <div>
@@ -924,7 +962,7 @@ export default function AccountsPage() {
                         name='city'
                         value={userDetails.city}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
                     <div>
@@ -936,7 +974,7 @@ export default function AccountsPage() {
                         name='country'
                         value={userDetails.country}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
                     <div>
@@ -948,45 +986,55 @@ export default function AccountsPage() {
                         name='postal_code'
                         value={userDetails.postal_code}
                         onChange={handleProfileChange}
-                        className='w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500'
+                        className='w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-yellow-500'
                       />
                     </div>
                   </div>
                 ) : (
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                     <div>
-                      <p className='text-sm text-gray-400'>Full Name</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        Full Name
+                      </p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.full_name || 'Not provided'}
                       </p>
                     </div>
                     <div>
-                      <p className='text-sm text-gray-400'>Phone Number</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        Phone Number
+                      </p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.phone_number || 'Not provided'}
                       </p>
                     </div>
                     <div>
-                      <p className='text-sm text-gray-400'>Address</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        Address
+                      </p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.address || 'Not provided'}
                       </p>
                     </div>
                     <div>
-                      <p className='text-sm text-gray-400'>City</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>City</p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.city || 'Not provided'}
                       </p>
                     </div>
                     <div>
-                      <p className='text-sm text-gray-400'>Country</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        Country
+                      </p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.country || 'Not provided'}
                       </p>
                     </div>
                     <div>
-                      <p className='text-sm text-gray-400'>Postal Code</p>
-                      <p className='text-white font-medium'>
+                      <p className='text-xs sm:text-sm text-gray-400'>
+                        Postal Code
+                      </p>
+                      <p className='text-sm sm:text-base text-white font-medium'>
                         {userDetails.postal_code || 'Not provided'}
                       </p>
                     </div>
@@ -995,66 +1043,81 @@ export default function AccountsPage() {
               </div>
 
               <div className='bg-gray-700/50 rounded-lg p-4'>
-                <h4 className='text-md font-medium text-white mb-2'>
+                <h4 className='text-sm sm:text-md font-medium text-white mb-2'>
                   Account Information
                 </h4>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                   <div>
-                    <p className='text-sm text-gray-400'>Account Type</p>
-                    <p className='text-white font-medium'>Basic</p>
+                    <p className='text-xs sm:text-sm text-gray-400'>
+                      Account Type
+                    </p>
+                    <p className='text-sm sm:text-base text-white font-medium'>
+                      Basic
+                    </p>
                   </div>
                   <div>
-                    <p className='text-sm text-gray-400'>Risk Level</p>
-                    <p className='text-white font-medium'>Medium</p>
+                    <p className='text-xs sm:text-sm text-gray-400'>
+                      Risk Level
+                    </p>
+                    <p className='text-sm sm:text-base text-white font-medium'>
+                      Medium
+                    </p>
                   </div>
                   <div>
-                    <p className='text-sm text-gray-400'>Account Status</p>
-                    <p className='text-green-500 font-medium'>Active</p>
+                    <p className='text-xs sm:text-sm text-gray-400'>
+                      Account Status
+                    </p>
+                    <p className='text-sm sm:text-base text-green-500 font-medium'>
+                      Active
+                    </p>
                   </div>
                   <div>
-                    <p className='text-sm text-gray-400'>Member Since</p>
-                    <p className='text-white font-medium'>January 2023</p>
+                    <p className='text-xs sm:text-sm text-gray-400'>
+                      Member Since
+                    </p>
+                    <p className='text-sm sm:text-base text-white font-medium'>
+                      January 2023
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className='bg-gray-700/50 rounded-lg p-4'>
-                <h4 className='text-md font-medium text-white mb-2'>
+                <h4 className='text-sm sm:text-md font-medium text-white mb-2'>
                   Security Settings
                 </h4>
                 {isLoadingSecurity ? (
                   <div className='flex justify-center py-4'>
-                    <div className='w-6 h-6 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin'></div>
+                    <div className='w-6 h-6 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin'></div>
                   </div>
                 ) : (
-                  <div className='space-y-4'>
-                    <div className='flex items-center justify-between'>
-                      <div>
-                        <p className='text-white font-medium'>
-                          Login Notifications
-                        </p>
-                        <p className='text-sm text-gray-400'>
-                          Get notified when someone logs into your account
-                        </p>
-                      </div>
-                      <Button
-                        variant={
-                          securitySettings?.loginNotificationsEnabled
-                            ? 'primary'
-                            : 'outline'
-                        }
-                        size='sm'
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <p className='text-sm text-white'>Login Notifications</p>
+                      <p className='text-xs text-gray-400'>
+                        Receive alerts when your account is accessed
+                      </p>
+                    </div>
+                    <div className='flex items-center'>
+                      {isUpdatingSecurity ? (
+                        <div className='w-5 h-5 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin mr-2'></div>
+                      ) : null}
+                      <button
                         onClick={handleToggleLoginNotifications}
-                        disabled={isUpdatingSecurity}
+                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 ${
+                          securitySettings?.loginNotificationsEnabled
+                            ? 'bg-yellow-500'
+                            : 'bg-gray-600'
+                        }`}
                       >
-                        {isUpdatingSecurity ? (
-                          <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin'></div>
-                        ) : securitySettings?.loginNotificationsEnabled ? (
-                          'Enabled'
-                        ) : (
-                          'Enable'
-                        )}
-                      </Button>
+                        <span
+                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                            securitySettings?.loginNotificationsEnabled
+                              ? 'translate-x-5'
+                              : 'translate-x-0'
+                          }`}
+                        />
+                      </button>
                     </div>
                   </div>
                 )}

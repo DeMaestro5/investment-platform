@@ -55,7 +55,7 @@ export const TraderViewChart: React.FC<TraderViewChartProps> = ({
     <div
       id={`tradingview_${Math.random().toString(36).substring(2, 9)}`}
       ref={containerRef}
-      className={`w-full ${className}`}
+      className={`w-full overflow-hidden ${className}`}
       style={{ height }}
     />
   );
@@ -64,7 +64,10 @@ export const TraderViewChart: React.FC<TraderViewChartProps> = ({
 // TradingView Section Component
 export const TraderViewSection: React.FC = () => {
   return (
-    <section id='section-01' className='py-16 bg-gray-900'>
+    <section
+      id='section-01'
+      className='py-8 sm:py-12 md:py-16 bg-gray-900 w-full overflow-hidden'
+    >
       <div className='container mx-auto px-4'>
         <SectionHeading
           title='Real-Time Market Data'
@@ -72,30 +75,37 @@ export const TraderViewSection: React.FC = () => {
           alignment='center'
         />
 
-        <div className='mt-10 rounded-lg overflow-hidden shadow-xl'>
-          <TraderViewChart />
+        <div className='mt-6 sm:mt-8 md:mt-10 rounded-lg overflow-hidden shadow-xl'>
+          <TraderViewChart
+            height='300px'
+            className='sm:h-[400px] md:h-[500px]'
+          />
         </div>
 
-        <div className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-6'>
-          <div className='bg-gray-800 p-6 rounded-lg shadow-md'>
-            <h3 className='text-xl font-semibold text-white mb-2'>
+        <div className='mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6'>
+          <div className='bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md'>
+            <h3 className='text-lg sm:text-xl font-semibold text-white mb-2'>
               Cryptocurrency
             </h3>
-            <p className='text-gray-300 mb-4'>
+            <p className='text-gray-300 text-sm sm:text-base mb-4'>
               Track major cryptocurrencies like Bitcoin, Ethereum, and more
             </p>
           </div>
 
-          <div className='bg-gray-800 p-6 rounded-lg shadow-md'>
-            <h3 className='text-xl font-semibold text-white mb-2'>Forex</h3>
-            <p className='text-gray-300 mb-4'>
+          <div className='bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md'>
+            <h3 className='text-lg sm:text-xl font-semibold text-white mb-2'>
+              Forex
+            </h3>
+            <p className='text-gray-300 text-sm sm:text-base mb-4'>
               Monitor currency pairs and exchange rates in real-time
             </p>
           </div>
 
-          <div className='bg-gray-800 p-6 rounded-lg shadow-md'>
-            <h3 className='text-xl font-semibold text-white mb-2'>Stocks</h3>
-            <p className='text-gray-300 mb-4'>
+          <div className='bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md'>
+            <h3 className='text-lg sm:text-xl font-semibold text-white mb-2'>
+              Stocks
+            </h3>
+            <p className='text-gray-300 text-sm sm:text-base mb-4'>
               Follow stock market performance across global exchanges
             </p>
           </div>
