@@ -2,16 +2,20 @@
 export interface UserProfile {
   id: string;
   email: string;
-  full_name?: string;
-  avatar_url?: string;
-  account_status: 'pending' | 'active' | 'suspended' | 'flagged';
+  full_name: string;
+  phone_number?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  postal_code?: string;
+  account_status: 'active' | 'suspended' | 'pending';
   risk_level: 'low' | 'medium' | 'high';
-  account_type: 'basic' | 'premium' | 'vip';
+  account_type: 'basic' | 'premium' | 'enterprise';
   portfolio_value: number;
   created_at: string;
   updated_at: string;
-  balance?: number;
-  profit?: number;
+  balance: number;
+  profit: number;
 }
 
 export interface UserSession {

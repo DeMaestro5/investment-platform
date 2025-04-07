@@ -49,7 +49,7 @@ export const userService = {
     try {
       const { error } = await supabase
         .from('user_profiles')
-        .update({ balance: newBalance, updated_at: new Date().toISOString() })
+        .update({ balance: newBalance })
         .eq('id', userId);
 
       if (error) {
@@ -69,7 +69,7 @@ export const userService = {
     try {
       const { error } = await supabase
         .from('user_profiles')
-        .update({ profit: newProfit, updated_at: new Date().toISOString() })
+        .update({ profit: newProfit })
         .eq('id', userId);
 
       if (error) {
@@ -80,6 +80,36 @@ export const userService = {
       return true;
     } catch (error) {
       console.error('Error in updateProfit:', error);
+      return false;
+    }
+  },
+
+  // Update user profile details
+  async updateUserDetails(
+    userId: string,
+    details: {
+      full_name?: string;
+      phone_number?: string;
+      address?: string;
+      city?: string;
+      country?: string;
+      postal_code?: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('user_profiles')
+        .update(details)
+        .eq('id', userId);
+
+      if (error) {
+        console.error('Error updating user details:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error in updateUserDetails:', error);
       return false;
     }
   },
