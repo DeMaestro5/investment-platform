@@ -11,6 +11,7 @@ import CommunitySection from '../components/sections/CommunitySection';
 import TutorialSection from '../components/sections/TutorialSection';
 import ReviewSection from '../components/sections/ReviewSection';
 import SecondTraderViewSection from '../components/sections/SecondTraderViewSection';
+import SocialSidebar from '../components/socialMediaSidebar';
 import { ProgressStep } from '../types/P.types';
 
 export default function HomePage() {
@@ -25,6 +26,9 @@ export default function HomePage() {
   return (
     <div className='min-h-screen bg-gray-900 text-white overflow-x-hidden'>
       <Navbar />
+
+      {/* Social Media Sidebar */}
+      <SocialSidebar />
 
       {/* Progress Indicator - Hide on mobile */}
       <div className='hidden md:block'>
