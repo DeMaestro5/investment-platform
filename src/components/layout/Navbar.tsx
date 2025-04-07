@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Button from '../ui/Button';
 import { NavItem } from '../../types/P.types';
+import { UserButton, useUser } from '@clerk/nextjs';
 
 // Navigation items
 const navItems: NavItem[] = [
@@ -44,8 +45,21 @@ const navItems: NavItem[] = [
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isSignedIn, isLoaded, user } = useUser();
+
+  // Debug authentication state
+  useEffect(() => {
+    console.log('Navbar auth state:', {
+      isSignedIn,
+      isLoaded,
+      userId: user?.id,
+      userEmail: user?.emailAddresses?.[0]?.emailAddress,
+      userName: user?.firstName
+        ? `${user.firstName} ${user.lastName || ''}`
+        : 'Unknown',
+    });
+  }, [isSignedIn, isLoaded, user]);
 
   // Handle scroll effect
   useEffect(() => {
@@ -57,11 +71,6 @@ const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Toggle dropdown menu
-  const toggleDropdown = (label: string) => {
-    setActiveDropdown(activeDropdown === label ? null : label);
-  };
 
   // Close mobile menu when clicking outside
   useEffect(() => {
@@ -99,200 +108,133 @@ const Navbar: React.FC = () => {
           {/* Desktop Navigation */}
           <nav className='hidden lg:flex items-center space-x-8'>
             {navItems.map((item) => (
-              <div key={item.label} className='relative'>
-                {item.subItems ? (
-                  <div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleDropdown(item.label);
-                      }}
-                      className='flex items-center text-white hover:text-yellow-500 transition-colors'
-                    >
-                      {item.label}
-                      <svg
-                        className={`ml-1 w-4 h-4 transition-transform ${
-                          activeDropdown === item.label ? 'rotate-180' : ''
-                        }`}
-                        fill='none'
-                        stroke='currentColor'
-                        viewBox='0 0 24 24'
-                        xmlns='http://www.w3.org/2000/svg'
+              <div key={item.label} className='relative group'>
+                <Link
+                  href={item.href}
+                  className='text-white hover:text-yellow-500 transition-colors'
+                >
+                  {item.label}
+                </Link>
+                {item.subItems && (
+                  <div className='absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
+                    {item.subItems.map((subItem) => (
+                      <Link
+                        key={subItem.label}
+                        href={subItem.href}
+                        className='block px-4 py-2 text-sm text-white hover:bg-gray-700'
                       >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth={2}
-                          d='M19 9l-7 7-7-7'
-                        />
-                      </svg>
-                    </button>
-
-                    {/* Dropdown Menu */}
-                    {activeDropdown === item.label && (
-                      <div className='absolute top-full left-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-md py-2 z-50'>
-                        {item.subItems.map((subItem) => (
-                          <Link
-                            key={subItem.label}
-                            href={subItem.href}
-                            className='block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 hover:text-white'
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            {subItem.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                        {subItem.label}
+                      </Link>
+                    ))}
                   </div>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className='text-white hover:text-yellow-500 transition-colors'
-                  >
-                    {item.label}
-                  </Link>
                 )}
               </div>
             ))}
+
+            {/* Account Button */}
+            <div className='ml-4'>
+              {isSignedIn ? (
+                <div className='flex space-x-4'>
+                  <Link href='/accounts'>
+                    <Button variant='primary'>Account</Button>
+                  </Link>
+                  <UserButton afterSignOutUrl='/' />
+                </div>
+              ) : (
+                <div className='flex space-x-4'>
+                  <Link href='/login'>
+                    <Button variant='outline'>Log In</Button>
+                  </Link>
+                  <Link href='/register'>
+                    <Button variant='primary'>Sign Up</Button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
 
-          {/* Login/Signup Buttons */}
-          <div className='hidden lg:flex items-center space-x-4'>
-            <Button variant='outline' size='sm' href='/login'>
-              Log In
-            </Button>
-            <Button variant='primary' size='sm' href='/register'>
-              Sign Up
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className='lg:hidden'>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMenuOpen(!isMenuOpen);
-              }}
-              className='text-white p-2'
-              aria-label='Toggle menu'
+          {/* Mobile menu button */}
+          <button
+            className='lg:hidden text-white'
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg
+              className='w-6 h-6'
+              fill='none'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
             >
               {isMenuOpen ? (
-                <svg
-                  className='w-6 h-6'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M6 18L18 6M6 6l12 12'
-                  />
-                </svg>
+                <path d='M6 18L18 6M6 6l12 12' />
               ) : (
-                <svg
-                  className='w-6 h-6'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M4 6h16M4 12h16M4 18h16'
-                  />
-                </svg>
+                <path d='M4 6h16M4 12h16M4 18h16' />
               )}
-            </button>
-          </div>
+            </svg>
+          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className='lg:hidden bg-gray-900 shadow-lg'>
-          <div className='container mx-auto px-4 py-4'>
-            <nav className='flex flex-col space-y-4'>
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className='lg:hidden'>
+            <div className='px-2 pt-2 pb-3 space-y-1'>
               {navItems.map((item) => (
                 <div key={item.label}>
-                  {item.subItems ? (
-                    <div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleDropdown(item.label);
-                        }}
-                        className='flex items-center justify-between w-full text-white py-2'
-                      >
-                        {item.label}
-                        <svg
-                          className={`ml-1 w-4 h-4 transition-transform ${
-                            activeDropdown === item.label ? 'rotate-180' : ''
-                          }`}
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                          xmlns='http://www.w3.org/2000/svg'
+                  <Link
+                    href={item.href}
+                    className='block px-3 py-2 text-white hover:bg-gray-700 rounded-md'
+                  >
+                    {item.label}
+                  </Link>
+                  {item.subItems && (
+                    <div className='pl-4'>
+                      {item.subItems.map((subItem) => (
+                        <Link
+                          key={subItem.label}
+                          href={subItem.href}
+                          className='block px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-md'
                         >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth={2}
-                            d='M19 9l-7 7-7-7'
-                          />
-                        </svg>
-                      </button>
-
-                      {activeDropdown === item.label && (
-                        <div className='pl-4 mt-2 border-l-2 border-gray-800'>
-                          {item.subItems.map((subItem) => (
-                            <Link
-                              key={subItem.label}
-                              href={subItem.href}
-                              className='block py-2 text-gray-300 hover:text-white'
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsMenuOpen(false);
-                                setActiveDropdown(null);
-                              }}
-                            >
-                              {subItem.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
+                          {subItem.label}
+                        </Link>
+                      ))}
                     </div>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className='block text-white py-2'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      {item.label}
-                    </Link>
                   )}
                 </div>
               ))}
-            </nav>
-
-            <div className='mt-6 flex flex-col space-y-3'>
-              <Button variant='outline' fullWidth href='/login'>
-                Log In
-              </Button>
-              <Button variant='primary' fullWidth href='/register'>
-                Sign Up
-              </Button>
+              {/* Mobile Account Button */}
+              <div className='px-3 py-2'>
+                {isSignedIn ? (
+                  <div className='flex flex-col space-y-2'>
+                    <Link href='/accounts'>
+                      <Button variant='primary' className='w-full'>
+                        Accounts
+                      </Button>
+                    </Link>
+                    <div className='flex justify-center'>
+                      <UserButton afterSignOutUrl='/' />
+                    </div>
+                  </div>
+                ) : (
+                  <div className='flex flex-col space-y-2'>
+                    <Link href='/login'>
+                      <Button variant='outline' className='w-full'>
+                        Log In
+                      </Button>
+                    </Link>
+                    <Link href='/register'>
+                      <Button variant='primary' className='w-full'>
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 };

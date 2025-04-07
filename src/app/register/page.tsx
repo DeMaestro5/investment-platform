@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Button from '../../components/ui/Button';
 import { motion } from 'framer-motion';
+import { useSignUp } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +20,19 @@ const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState('');
+
+  const { signUp, isLoaded } = useSignUp();
+  const router = useRouter();
+  const { isSignedIn } = useUser();
+
+  // Redirect if already signed in
+  React.useEffect(() => {
+    if (isSignedIn) {
+      console.log('User is signed in, redirecting to homepage');
+      router.push('/');
+    }
+  }, [isSignedIn, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -26,14 +42,58 @@ const RegisterPage = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    if (!isLoaded) return;
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setError('');
+
+      const result = await signUp.create({
+        emailAddress: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+      });
+
+      if (result.status === 'complete') {
+        router.push('/');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'An error occurred during sign up'
+      );
+    } finally {
       setIsLoading(false);
-      // Handle registration logic here
-    }, 1500);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    if (!isLoaded) return;
+
+    try {
+      setIsLoading(true);
+      await signUp.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/',
+        redirectUrlComplete: '/',
+      });
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'An error occurred during Google sign up'
+      );
+      setIsLoading(false);
+    }
   };
 
   // Animation variants
@@ -99,7 +159,7 @@ const RegisterPage = () => {
                 href='/login'
                 className='text-yellow-500 hover:text-yellow-400 transition-colors'
               >
-                Sign in
+                Login
               </Link>
             </motion.p>
           </motion.div>
@@ -112,6 +172,15 @@ const RegisterPage = () => {
             initial='hidden'
             animate='visible'
           >
+            {error && (
+              <motion.div
+                className='bg-red-500/20 border border-red-500 text-red-200 px-4 py-2 rounded-md text-sm'
+                variants={itemVariants}
+              >
+                {error}
+              </motion.div>
+            )}
+
             <motion.div
               className='rounded-md shadow-sm space-y-4'
               variants={itemVariants}
@@ -398,15 +467,13 @@ const RegisterPage = () => {
               </div>
             </div>
 
-            <motion.div
-              className='mt-6 grid grid-cols-2 gap-3'
-              variants={itemVariants}
-            >
+            <motion.div className='mt-6' variants={itemVariants}>
               <Button
                 variant='secondary'
                 size='md'
                 fullWidth
                 className='flex items-center justify-center hover:bg-gray-700 transition-colors'
+                onClick={handleGoogleSignUp}
               >
                 <svg className='w-5 h-5 mr-2' viewBox='0 0 24 24'>
                   <path
@@ -415,21 +482,6 @@ const RegisterPage = () => {
                   />
                 </svg>
                 Google
-              </Button>
-              <Button
-                variant='secondary'
-                size='md'
-                fullWidth
-                className='flex items-center justify-center hover:bg-gray-700 transition-colors'
-              >
-                <svg
-                  className='w-5 h-5 mr-2'
-                  fill='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path d='M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z' />
-                </svg>
-                Facebook
               </Button>
             </motion.div>
           </motion.div>

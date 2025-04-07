@@ -10,6 +10,8 @@ export interface UserProfile {
   portfolio_value: number;
   created_at: string;
   updated_at: string;
+  balance?: number;
+  profit?: number;
 }
 
 export interface UserSession {

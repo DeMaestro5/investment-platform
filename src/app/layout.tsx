@@ -1,4 +1,4 @@
-import { AuthProvider } from '../contexts/AuthContext';
+import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
   );

@@ -15,6 +15,7 @@ export interface ButtonProps {
   className?: string;
   href?: string;
   fullWidth?: boolean;
+  disabled?: boolean;
 }
 
 export interface HeroSlide {

@@ -22,10 +22,6 @@ const GetAccountBanner: React.FC = () => {
             <Button variant='secondary' size='lg' href='/register'>
               Open Live Account
             </Button>
-
-            <Button variant='outline' size='lg' href='/demo-account'>
-              Try Demo Account
-            </Button>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ export const Button = ({
   className = '',
   href,
   fullWidth = false,
+  disabled = false,
 }: ButtonProps) => {
   // Base styles
   const baseStyles =
@@ -20,10 +21,11 @@ export const Button = ({
   // Variant styles
   const variantStyles = {
     primary:
-      'bg-yellow-500 text-black hover:bg-yellow-600 focus:ring-yellow-500',
-    secondary: 'bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-800',
+      'bg-yellow-500 text-black hover:bg-yellow-600 focus:ring-yellow-500 disabled:bg-gray-400 disabled:cursor-not-allowed',
+    secondary:
+      'bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-800 disabled:bg-gray-600 disabled:cursor-not-allowed',
     outline:
-      'border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black focus:ring-yellow-500',
+      'border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black focus:ring-yellow-500 disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed',
   };
 
   // Size styles
@@ -48,7 +50,12 @@ export const Button = ({
   }
 
   return (
-    <button className={buttonStyles} onClick={onClick} type='button'>
+    <button
+      className={buttonStyles}
+      onClick={onClick}
+      type='button'
+      disabled={disabled}
+    >
       {children}
     </button>
   );
