@@ -29,11 +29,10 @@ const footerColumns: FooterColumn[] = [
   {
     title: 'Resources',
     links: [
-      { label: 'Learn', href: '/learn' },
+      { label: 'Learn', href: '/learn/tutorials' },
       { label: 'Blog', href: '/blog' },
       { label: 'FAQ', href: '/faq' },
       { label: 'Help Center', href: '/help' },
-      { label: 'API Documentation', href: '/api-docs' },
     ],
   },
 ];
