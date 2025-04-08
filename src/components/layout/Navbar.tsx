@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Learn',
-    href: '/learn',
+    href: '/learn/tutorials',
     subItems: [
       { label: 'Tutorials', href: '/learn/tutorials' },
       { label: 'Market News', href: '/learn/news' },
