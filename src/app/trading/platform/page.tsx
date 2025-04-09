@@ -1,35 +1,75 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-// Mock data for the chart
-const mockData = [
-  { time: '00:00', price: 50000 },
-  { time: '04:00', price: 51000 },
-  { time: '08:00', price: 49500 },
-  { time: '12:00', price: 50500 },
-  { time: '16:00', price: 51500 },
-  { time: '20:00', price: 52000 },
-];
-
 // Mock trading pairs data
 const tradingPairs = [
-  { pair: 'BTC/USD', price: '52,000.00', change: '+2.5%', volume: '1.2B' },
-  { pair: 'ETH/USD', price: '3,200.00', change: '+1.8%', volume: '800M' },
-  { pair: 'SOL/USD', price: '120.00', change: '-0.5%', volume: '500M' },
-  { pair: 'ADA/USD', price: '0.45', change: '+0.8%', volume: '300M' },
-  { pair: 'DOT/USD', price: '7.20', change: '-1.2%', volume: '200M' },
+  {
+    pair: 'BTC/USD',
+    price: '52,000.00',
+    change: '+2.5%',
+    volume: '1.2B',
+    high: '52,500.00',
+    low: '51,200.00',
+  },
+  {
+    pair: 'ETH/USD',
+    price: '3,200.00',
+    change: '+1.8%',
+    volume: '800M',
+    high: '3,250.00',
+    low: '3,150.00',
+  },
+  {
+    pair: 'SOL/USD',
+    price: '120.00',
+    change: '-0.5%',
+    volume: '500M',
+    high: '122.00',
+    low: '118.00',
+  },
+  {
+    pair: 'ADA/USD',
+    price: '0.45',
+    change: '+0.8%',
+    volume: '300M',
+    high: '0.46',
+    low: '0.44',
+  },
+  {
+    pair: 'DOT/USD',
+    price: '7.20',
+    change: '-1.2%',
+    volume: '200M',
+    high: '7.30',
+    low: '7.10',
+  },
+  {
+    pair: 'AVAX/USD',
+    price: '40.50',
+    change: '+3.2%',
+    volume: '400M',
+    high: '41.00',
+    low: '39.50',
+  },
+  {
+    pair: 'MATIC/USD',
+    price: '1.20',
+    change: '+0.5%',
+    volume: '250M',
+    high: '1.22',
+    low: '1.18',
+  },
+  {
+    pair: 'LINK/USD',
+    price: '18.50',
+    change: '-0.8%',
+    volume: '180M',
+    high: '18.80',
+    low: '18.20',
+  },
 ];
 
 // Mock market overview data
@@ -38,163 +78,145 @@ const marketOverview = {
   marketCapChange: '+3.2%',
   volume24h: '120B',
   btcDominance: '42.5%',
+  activeMarkets: '250+',
+  totalCryptocurrencies: '12,000+',
 };
 
 export default function TradingPlatform() {
   const [selectedPair, setSelectedPair] = useState('BTC/USD');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredPairs = tradingPairs.filter((pair) =>
+    pair.pair.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className='min-h-screen flex flex-col'>
       <Navbar />
       <main className='flex-grow p-6'>
         <div className='max-w-7xl mx-auto mt-20'>
-          <div className='flex justify-between items-center mb-8'>
-            <h1 className='text-3xl font-bold'>Trading Platform</h1>
-            <div className='flex items-center space-x-4'>
-              <div className='bg-gray-800 rounded-lg p-3'>
-                <span className='text-gray-400 text-sm'>24h Volume</span>
-                <p className='text-xl font-semibold'>
-                  ${marketOverview.volume24h}
-                </p>
-              </div>
-              <div className='bg-gray-800 rounded-lg p-3'>
-                <span className='text-gray-400 text-sm'>Market Cap</span>
-                <p className='text-xl font-semibold'>
-                  ${marketOverview.totalMarketCap}
-                </p>
-              </div>
-              <div className='bg-gray-800 rounded-lg p-3'>
-                <span className='text-gray-400 text-sm'>BTC Dominance</span>
-                <p className='text-xl font-semibold'>
-                  {marketOverview.btcDominance}
-                </p>
-              </div>
+          {/* Market Overview Cards */}
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8'>
+            <div className='bg-gray-800 rounded-lg p-4'>
+              <h3 className='text-gray-400 text-sm'>Total Market Cap</h3>
+              <p className='text-2xl font-bold'>
+                ${marketOverview.totalMarketCap}
+              </p>
+              <p className='text-green-500 text-sm'>
+                +{marketOverview.marketCapChange}
+              </p>
+            </div>
+            <div className='bg-gray-800 rounded-lg p-4'>
+              <h3 className='text-gray-400 text-sm'>24h Volume</h3>
+              <p className='text-2xl font-bold'>${marketOverview.volume24h}</p>
+              <p className='text-green-500 text-sm'>+5.2%</p>
+            </div>
+            <div className='bg-gray-800 rounded-lg p-4'>
+              <h3 className='text-gray-400 text-sm'>BTC Dominance</h3>
+              <p className='text-2xl font-bold'>
+                {marketOverview.btcDominance}
+              </p>
+              <p className='text-green-500 text-sm'>+0.5%</p>
+            </div>
+            <div className='bg-gray-800 rounded-lg p-4'>
+              <h3 className='text-gray-400 text-sm'>Active Markets</h3>
+              <p className='text-2xl font-bold'>
+                {marketOverview.activeMarkets}
+              </p>
+              <p className='text-green-500 text-sm'>
+                {marketOverview.totalCryptocurrencies} assets
+              </p>
             </div>
           </div>
 
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-            {/* Price Chart */}
-            <div className='lg:col-span-2 bg-gray-800 rounded-lg p-6'>
-              <div className='flex justify-between items-center mb-4'>
-                <h2 className='text-xl font-semibold'>
-                  {selectedPair} Price Chart
-                </h2>
-                <div className='flex space-x-2'>
-                  <button className='px-3 py-1 bg-gray-700 rounded-lg text-sm'>
-                    1D
-                  </button>
-                  <button className='px-3 py-1 bg-gray-700 rounded-lg text-sm'>
-                    1W
-                  </button>
-                  <button className='px-3 py-1 bg-gray-700 rounded-lg text-sm'>
-                    1M
-                  </button>
-                  <button className='px-3 py-1 bg-gray-700 rounded-lg text-sm'>
-                    1Y
-                  </button>
-                </div>
-              </div>
-              <div className='h-[400px]'>
-                <ResponsiveContainer width='100%' height='100%'>
-                  <LineChart data={mockData}>
-                    <CartesianGrid strokeDasharray='3 3' stroke='#374151' />
-                    <XAxis dataKey='time' stroke='#9CA3AF' />
-                    <YAxis stroke='#9CA3AF' />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: 'none',
-                      }}
-                      labelStyle={{ color: '#9CA3AF' }}
-                    />
-                    <Line
-                      type='monotone'
-                      dataKey='price'
-                      stroke='#3B82F6'
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+          {/* Trading Pairs Section */}
+          <div className='bg-gray-800 rounded-lg p-6'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-xl font-semibold'>Trading Pairs</h2>
+              <div className='relative'>
+                <input
+                  type='text'
+                  placeholder='Search pairs...'
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className='bg-gray-700 rounded-lg px-4 py-2 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                <svg
+                  className='absolute left-3 top-2.5 h-5 w-5 text-gray-400'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                  />
+                </svg>
               </div>
             </div>
 
-            {/* Trading Pairs */}
-            <div className='bg-gray-800 rounded-lg p-6'>
-              <h2 className='text-xl font-semibold mb-4'>Trading Pairs</h2>
-              <div className='space-y-2'>
-                {tradingPairs.map((pair) => (
-                  <div
-                    key={pair.pair}
-                    className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-colors ${
-                      selectedPair === pair.pair
-                        ? 'bg-gray-700'
-                        : 'hover:bg-gray-700'
-                    }`}
-                    onClick={() => setSelectedPair(pair.pair)}
-                  >
-                    <div>
-                      <p className='font-medium'>{pair.pair}</p>
-                      <p className='text-sm text-gray-400'>
-                        Vol: ${pair.volume}
-                      </p>
-                    </div>
-                    <div className='text-right'>
-                      <p className='font-medium'>${pair.price}</p>
-                      <p
-                        className={`text-sm ${
-                          pair.change.startsWith('+')
-                            ? 'text-green-500'
-                            : 'text-red-500'
-                        }`}
-                      >
-                        {pair.change}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Market Overview */}
-          <div className='mt-6 bg-gray-800 rounded-lg p-6'>
-            <h2 className='text-xl font-semibold mb-4'>Market Overview</h2>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-              <div className='bg-gray-700 rounded-lg p-4'>
-                <h3 className='text-gray-400 text-sm'>Total Market Cap</h3>
-                <p className='text-2xl font-bold'>
-                  ${marketOverview.totalMarketCap}
-                </p>
-                <p className='text-green-500 text-sm'>
-                  +{marketOverview.marketCapChange}
-                </p>
-              </div>
-              <div className='bg-gray-700 rounded-lg p-4'>
-                <h3 className='text-gray-400 text-sm'>24h Volume</h3>
-                <p className='text-2xl font-bold'>
-                  ${marketOverview.volume24h}
-                </p>
-                <p className='text-green-500 text-sm'>+5.2%</p>
-              </div>
-              <div className='bg-gray-700 rounded-lg p-4'>
-                <h3 className='text-gray-400 text-sm'>BTC Dominance</h3>
-                <p className='text-2xl font-bold'>
-                  {marketOverview.btcDominance}
-                </p>
-                <p className='text-green-500 text-sm'>+0.5%</p>
-              </div>
-              <div className='bg-gray-700 rounded-lg p-4'>
-                <h3 className='text-gray-400 text-sm'>Active Markets</h3>
-                <p className='text-2xl font-bold'>250+</p>
-                <p className='text-green-500 text-sm'>+10 new</p>
-              </div>
+            {/* Trading Pairs Table */}
+            <div className='overflow-x-auto'>
+              <table className='w-full'>
+                <thead>
+                  <tr className='text-left text-gray-400 text-sm'>
+                    <th className='pb-4'>Pair</th>
+                    <th className='pb-4'>Price</th>
+                    <th className='pb-4'>24h Change</th>
+                    <th className='pb-4'>24h Volume</th>
+                    <th className='pb-4'>24h High</th>
+                    <th className='pb-4'>24h Low</th>
+                  </tr>
+                </thead>
+                <tbody className='divide-y divide-gray-700'>
+                  {filteredPairs.map((pair) => (
+                    <tr
+                      key={pair.pair}
+                      className={`cursor-pointer hover:bg-gray-700 ${
+                        selectedPair === pair.pair ? 'bg-gray-700' : ''
+                      }`}
+                      onClick={() => setSelectedPair(pair.pair)}
+                    >
+                      <td className='py-4'>
+                        <div className='font-medium'>{pair.pair}</div>
+                      </td>
+                      <td className='py-4'>
+                        <div className='font-medium'>${pair.price}</div>
+                      </td>
+                      <td className='py-4'>
+                        <div
+                          className={`${
+                            pair.change.startsWith('+')
+                              ? 'text-green-500'
+                              : 'text-red-500'
+                          }`}
+                        >
+                          {pair.change}
+                        </div>
+                      </td>
+                      <td className='py-4'>
+                        <div className='text-gray-400'>${pair.volume}</div>
+                      </td>
+                      <td className='py-4'>
+                        <div className='text-gray-400'>${pair.high}</div>
+                      </td>
+                      <td className='py-4'>
+                        <div className='text-gray-400'>${pair.low}</div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
           {/* Order Book */}
           <div className='mt-6 bg-gray-800 rounded-lg p-6'>
-            <h2 className='text-xl font-semibold mb-4'>Order Book</h2>
+            <h2 className='text-xl font-semibold mb-4'>
+              Order Book - {selectedPair}
+            </h2>
             <div className='grid grid-cols-2 gap-4'>
               <div>
                 <h3 className='text-green-500 font-medium mb-2'>Bids</h3>
