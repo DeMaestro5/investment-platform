@@ -6,6 +6,7 @@ import Footer from '../../../components/layout/Footer';
 import { ProgressStep } from '../../../types/P.types';
 import ProgressIndicator from '../../../components/ui/ProgressIndicator';
 import ToolModal from '../../../components/ui/ToolModal';
+import QuickAccessModal from '../../../components/ui/QuickAccessModal';
 
 interface ToolData {
   id: string;
@@ -17,6 +18,9 @@ interface ToolData {
 
 export default function AnalysisToolsPage() {
   const [selectedTool, setSelectedTool] = useState<ToolData | null>(null);
+  const [selectedQuickTool, setSelectedQuickTool] = useState<
+    'currency' | 'pip' | 'margin' | 'profit' | null
+  >(null);
 
   const progressSteps: ProgressStep[] = [
     { id: 1, label: 'Home', active: false },
@@ -558,23 +562,35 @@ export default function AnalysisToolsPage() {
         <div className='mt-12'>
           <h2 className='text-2xl font-semibold mb-6'>Quick Access Tools</h2>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-            <button className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'>
+            <button
+              onClick={() => setSelectedQuickTool('currency')}
+              className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'
+            >
               <span className='block text-center'>Currency Converter</span>
             </button>
-            <button className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'>
+            <button
+              onClick={() => setSelectedQuickTool('pip')}
+              className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'
+            >
               <span className='block text-center'>Pip Calculator</span>
             </button>
-            <button className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'>
+            <button
+              onClick={() => setSelectedQuickTool('margin')}
+              className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'
+            >
               <span className='block text-center'>Margin Calculator</span>
             </button>
-            <button className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'>
+            <button
+              onClick={() => setSelectedQuickTool('profit')}
+              className='bg-gray-800 hover:bg-gray-700 p-4 rounded-lg transition-colors'
+            >
               <span className='block text-center'>Profit Calculator</span>
             </button>
           </div>
         </div>
       </main>
 
-      {/* Modal */}
+      {/* Main Tools Modal */}
       {selectedTool && (
         <ToolModal
           isOpen={!!selectedTool}
@@ -584,6 +600,13 @@ export default function AnalysisToolsPage() {
           {selectedTool.content}
         </ToolModal>
       )}
+
+      {/* Quick Access Tools Modal */}
+      <QuickAccessModal
+        isOpen={!!selectedQuickTool}
+        onClose={() => setSelectedQuickTool(null)}
+        toolType={selectedQuickTool}
+      />
 
       <Footer />
     </div>
