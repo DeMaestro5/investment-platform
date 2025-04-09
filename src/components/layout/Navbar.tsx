@@ -11,7 +11,6 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   {
     label: 'Markets',
-    href: '/markets',
     subItems: [
       { label: 'Cryptocurrency', href: '/markets/crypto' },
       { label: 'Forex', href: '/markets/forex' },
@@ -22,7 +21,6 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Trading',
-    href: '/trading',
     subItems: [
       { label: 'Trading Platform', href: '/trading/platform' },
       { label: 'Charts', href: '/trading/charts' },
@@ -31,7 +29,6 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Learn',
-    href: '/learn/tutorials',
     subItems: [
       { label: 'Tutorials', href: '/learn/tutorials' },
       { label: 'Market News', href: '/learn/news' },
@@ -121,12 +118,18 @@ const Navbar: React.FC = () => {
           <nav className='hidden lg:flex items-center space-x-8'>
             {navItems.map((item) => (
               <div key={item.label} className='relative group'>
-                <Link
-                  href={item.href}
-                  className='text-white hover:text-yellow-500 transition-colors'
-                >
-                  {item.label}
-                </Link>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    className='text-white hover:text-yellow-500 transition-colors'
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span className='text-white hover:text-yellow-500 transition-colors cursor-pointer'>
+                    {item.label}
+                  </span>
+                )}
                 {item.subItems && (
                   <div className='absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
                     {item.subItems.map((subItem) => (
@@ -195,13 +198,19 @@ const Navbar: React.FC = () => {
             <div className='px-2 pt-2 pb-3 space-y-1'>
               {navItems.map((item) => (
                 <div key={item.label}>
-                  <Link
-                    href={item.href}
-                    className='block px-3 py-2 text-white hover:bg-gray-700 rounded-md'
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className='block px-3 py-2 text-white hover:bg-gray-700 rounded-md'
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span className='block px-3 py-2 text-white hover:bg-gray-700 rounded-md cursor-pointer'>
+                      {item.label}
+                    </span>
+                  )}
                   {item.subItems && (
                     <div className='pl-4'>
                       {item.subItems.map((subItem) => (

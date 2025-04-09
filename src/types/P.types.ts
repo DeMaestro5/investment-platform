@@ -66,8 +66,11 @@ export interface VideoPlayerProps {
 
 export interface NavItem {
   label: string;
-  href: string;
-  subItems?: NavItem[];
+  href?: string;
+  subItems?: {
+    label: string;
+    href: string;
+  }[];
 }
 
 export interface FooterLink {
