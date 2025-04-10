@@ -22,7 +22,6 @@ const footerColumns: FooterColumn[] = [
       { label: 'About Us', href: '/about' },
       { label: 'Careers', href: '/careers' },
       { label: 'Contact Us', href: '/contact' },
-      { label: 'Security', href: '/security' },
       { label: 'Terms of Service', href: '/terms' },
     ],
   },
